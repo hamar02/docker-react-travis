@@ -1,0 +1,19 @@
+language: generic
+sudo: required
+services:
+  - docker
+
+language: python
+
+before_install:
+  - docker build -t hamaro/docker-react -f Dockerfile.dev .
+
+script:
+  - docker run -e CI=true hamaro/docker-react npm run test
+
+deploy:
+  provider: gae
+  project: docker-react
+  keyfile: client-secret.json
+  verbosity: debug
+  on: master
