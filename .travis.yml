@@ -40,7 +40,7 @@ script:
 
   # [START deploy]
   # Deploy the app
-  - gcloud -q app deploy docker-compose.yaml --promote
+  - gcloud app deploy
   # Run and end to end test
   - docker run -e CI=true hamaro/docker-react-travis npm run test
   # [END deploy]
