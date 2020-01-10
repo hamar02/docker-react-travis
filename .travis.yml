@@ -40,7 +40,10 @@ script:
 
   # [START deploy]
   # Deploy the app
-  - gcloud app deploy --log-http --verbosity=debug
+  - gcloud app deploy
+
+  # Debug deploy
+  #- gcloud app deploy --log-http --verbosity=debug
   # Run and end to end test
   - docker run -e CI=true hamaro/docker-react-travis npm run test
   # [END deploy]
