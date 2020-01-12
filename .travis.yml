@@ -13,10 +13,7 @@ env:
   - GAE_PYTHONPATH=${HOME}/.cache/google_appengine PATH=$PATH:${HOME}/google-cloud-sdk/bin PYTHONPATH=${PYTHONPATH}:${GAE_PYTHONPATH} CLOUDSDK_CORE_DISABLE_PROMPTS=1
 
 before_install:
-  - echo before_install
   - docker build -t hamaro/docker-react-travis -f Dockerfile.dev .
-
-
 
   # [START auth]
   # Decrypt the credentials we added to the repo using the key we added with the Travis command line tool
@@ -29,23 +26,21 @@ before_install:
   - mkdir -p lib
   # Here we use the decrypted service account credentials to authenticate the command line tool
   - gcloud auth activate-service-account --key-file client-secret.json
-  - echo finished auth
   # [END auth]
 
 install:
   - gcloud config set project docker-react-264419
 
 script:
-  - echo script
-
+  # Run and end to end test
+  - docker run -e CI=true hamaro/docker-react-travis npm run test
+  
   # [START deploy]
   # Deploy the app
   - gcloud app deploy
 
   # Debug deploy
   #- gcloud app deploy --log-http --verbosity=debug
-  # Run and end to end test
-  - docker run -e CI=true hamaro/docker-react-travis npm run test
   # [END deploy]
 
 
